@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../redux/auth/authSlice';
 import axios from 'axios';
-import styles from './LoginPage.module/LoginPage.module.css'; 
+import styles from './LoginPage.module/LoginPage.module.css';
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -20,10 +20,21 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://connections-api.herokuapp.com/users/login', {
+      // Серіалізуємо дані у JSON формат
+      const dataToSend = JSON.stringify({
         email: formData.email,
         password: formData.password,
       });
+
+      const response = await axios.post(
+        'https://connections-api.herokuapp.com/users/login',
+        dataToSend,
+        {
+          headers: {
+            'Content-Type': 'application/json', // Вказуємо тип контенту JSON
+          },
+        }
+      );
 
       const { token } = response.data;
 

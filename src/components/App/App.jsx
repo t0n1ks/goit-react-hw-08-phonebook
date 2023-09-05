@@ -16,7 +16,6 @@ function App() {
           <Route path="/login" element={<Container> <LoginPage /></Container>} />
           <Route path="/register" element={ <Container><RegistrationPage /></Container>}/>
           <Route path="/user-menu" element={ <Container><UserMenu /></Container>}/>
-          {/* Додайте інші роути тут */}
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       </Suspense>

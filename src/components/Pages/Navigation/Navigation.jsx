@@ -1,4 +1,3 @@
-// Navigation.js
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import navigationStyles from './Navigation.module/navigationStyles'; 
@@ -15,7 +14,6 @@ function Navigation() {
         <li style={{ ...navigationStyles.li, ...(pathname === '/register' && navigationStyles.activeLink) }}>
           <Link to="/register" style={navigationStyles.link}>Register</Link>
         </li>
-        {/* Додайте інші посилання на сторінки, які вам потрібні */}
       </ul>
     </nav>
   );
