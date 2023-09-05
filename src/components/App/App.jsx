@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Navigation from '../Pages/Navigation/Navigation.module';
+import Navigation from '../Pages/Navigation/Navigation';
 import Container from '../Container/Container';
 
 const LoginPage = React.lazy(() => import('../PagesLog/LoginPage/LoginPage'));
@@ -10,7 +10,7 @@ const UserMenu = React.lazy(() => import('../Pages/UserMenu/UserMenu'));
 function App() {
   return (
     <Router>
-      <Navigation />
+     <Container> <Navigation /></Container>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/login" element={<Container> <LoginPage /></Container>} />
