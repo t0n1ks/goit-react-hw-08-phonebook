@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../../redux/auth/authSlice';
 import axios from 'axios';
 import styles from './RegistrationPage.module/RegistrationPage.module.css';
 
 function RegistrationPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const error = useSelector((state) => state.auth.error);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,7 +21,14 @@ function RegistrationPage() {
     setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
+  useEffect(() =>  {
+    if (isAuthenticated && !error) {
+      navigate('/user-menu');
+    }
+  },[isAuthenticated, error, navigate]);
+  
   const handleSubmit = async e => {
+    debugger
     e.preventDefault();
 
     try {
@@ -41,7 +52,12 @@ function RegistrationPage() {
       setFormData({ name: '', email: '', password: '' });
 
     } catch (error) {
-      console.error('Registration failed:', error);
+      if(error.response.status === 400 && error.response.data.name === "MongoError") {
+        alert ('User already exist')
+      }
+      else {
+       alert ('Registration failed:', error);
+    }
     }
   };
 

@@ -1,16 +1,25 @@
+// authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { sendLoginRequest } from 'api/api';
 
-export const login = createAsyncThunk('auth/login', async ({ email, password }) => {
+export const login = createAsyncThunk("auth/login", async ({ email, password }, { rejectWithValue }) => {
+  // debugger
   try {
-    const response = await axios.post('https://connections-api.herokuapp.com/users/login', {
-      email,
-      password,
-    });
-    const userData = response.data;
-    return userData;
+    const { token, user } = await sendLoginRequest({ email, password });
+    
+    // Встановлення isAuthenticated в true та збереження токену
+    return {token : token, user : user };
   } catch (error) {
-    throw error;
+
+    if(error.response.status === 400 && error.response.data.name === "MongoError") {
+      alert ('User already exist')
+    }
+    else {
+     alert ('Registration failed:', error);
+  }
+  // debugger
+  return rejectWithValue({ message: error.message, status: error.response.status });
   }
 });
 
@@ -22,6 +31,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     throw error;
   }
 });
+
 
 export const register = createAsyncThunk('auth/register', async ({ name, email, password }) => {
   try {
@@ -40,7 +50,7 @@ export const register = createAsyncThunk('auth/register', async ({ name, email, 
 const initialState = {
   user: null,
   isAuthenticated: false,
-  token: null,
+  token: null, // Додавання токену
   error: null,
 };
 
@@ -50,20 +60,22 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
+      debugger
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      state.token = action.payload.token;
+      state.token = action.payload.token; // Збереження токену
       state.error = null;
     });
 
     builder.addCase(login.rejected, (state, action) => {
-      state.error = action.error.message;
+      debugger
+      state.error = action.payload.message;
     });
 
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      state.token = action.payload.token;
+      state.token = action.payload.token; // Збереження токену
       state.error = null;
     });
 
@@ -78,7 +90,7 @@ const authSlice = createSlice({
     builder.addCase(logout.fulfilled, (state) => {
       state.user = null;
       state.isAuthenticated = false;
-      state.token = null;
+      state.token = null; // Очищення токену
       state.error = null;
     });
   },

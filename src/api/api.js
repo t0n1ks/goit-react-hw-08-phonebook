@@ -16,15 +16,31 @@ export const signup = async ({ email, password }) => {
 };
 
 // Функція для автентифікації користувача
-export const login = async ({ email, password }) => {
+export const sendLoginRequest = async ( {email, password} ) => {
+  // debugger
   try {
-    const response = await axios.post(`${BASE_URL}/users/login`, {
-      email,
-      password,
+    const dataToSend = JSON.stringify({
+      email: email,
+      password: password,
     });
-    return response.data;
+
+    const response = await axios.post(
+      `${BASE_URL}/users/login`,
+      dataToSend,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return {
+      token: response.data.token,
+      user: response.data.user,
+    };
   } catch (error) {
-    throw error.response.data;
+    console.error("There was an error during user login process", error.response.data)
+    throw error;
   }
 };
 

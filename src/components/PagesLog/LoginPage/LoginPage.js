@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+// LoginPage.js
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector} from 'react-redux';
 import { login } from '../../../redux/auth/authSlice';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Додано імпорт
+
+
+
 import styles from './LoginPage.module/LoginPage.module.css';
 
 function LoginPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const error = useSelector((state) => state.auth.error);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  useEffect(() =>  {
+    if (isAuthenticated && !error) {
+      navigate('/user-menu');
+    }
+  },[isAuthenticated, error, navigate]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -17,34 +30,20 @@ function LoginPage() {
   };
 
   const handleSubmit = async e => {
+    debugger
     e.preventDefault();
 
-    try {
-      // Серіалізуємо дані у JSON формат
-      const dataToSend = JSON.stringify({
-        email: formData.email,
-        password: formData.password,
-      });
+    try {   
 
-      const response = await axios.post(
-        'https://connections-api.herokuapp.com/users/login',
-        dataToSend,
-        {
-          headers: {
-            'Content-Type': 'application/json', // Вказуємо тип контенту JSON
-          },
-        }
-      );
-
-      const { token } = response.data;
-
-      dispatch(login({ token }));
-
-      setFormData({ email: '', password: '' });
+      dispatch(login( {email: formData.email, password: formData.password} ));
+    //   if (isAuthenticated && !error){
+    //   navigate("/user-menu");
+    // }
     } catch (error) {
-      console.error('Login failed:', error);
+      alert('Login failed:', error);
     }
   };
+
 
   return (
     <div className={styles.container}>
