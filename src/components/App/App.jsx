@@ -11,7 +11,7 @@ const UserMenu = React.lazy(() => import('../Pages/UserMenu/UserMenu'));
 
 function App() {
   return (
-    <Router>
+    <Router basename="/goit-react-hw-08-phonebook">
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
         <Route path="/" element={<><Container><Navigation/><Outlet/></Container></>}>
