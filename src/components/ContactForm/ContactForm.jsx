@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice/contactsSlice';
 import s from './ContactForm.module/ContactForm.module.css';
-
-
-import { createContact } from '../../api/api';
+import { createContact } from '../../api/api'; // Додано імпорт
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const contacts = useSelector(state => state.contacts.items);
+  const userToken = useSelector(state => state.auth.token); // Отримайте токен користувача зі стейту
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
     if (name === 'name') {
       setName(value);
@@ -21,9 +20,9 @@ const ContactForm = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    
+
     if (name === '' || number === '') {
       alert('Please fill in all fields');
       return;
@@ -42,14 +41,13 @@ const ContactForm = () => {
     }
 
     try {
-     
-      const addedContact = await createContact({ name, number }); 
-      dispatch(addContact(addedContact)); 
+      // Відправка контакту на сервер і передача токену авторизованого користувача
+      const addedContact = await createContact({ name, number }, userToken);
+      dispatch(addContact(addedContact));
       setName('');
       setNumber('');
     } catch (error) {
       console.error('Error adding contact:', error);
-
     }
   };
 

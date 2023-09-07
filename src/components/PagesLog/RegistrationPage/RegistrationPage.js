@@ -22,6 +22,7 @@ function RegistrationPage() {
   };
 
   useEffect(() =>  {
+    debugger
     if (isAuthenticated && !error) {
       navigate('/user-menu');
     }

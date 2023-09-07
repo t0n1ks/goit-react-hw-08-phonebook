@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navigation from '../Pages/Navigation/Navigation';
-import Container from '../Container/Container';
+import Container from '../Container/Container'; 
 
 const LoginPage = React.lazy(() => import('../PagesLog/LoginPage/LoginPage'));
 const RegistrationPage = React.lazy(() => import('../PagesLog/RegistrationPage/RegistrationPage'));

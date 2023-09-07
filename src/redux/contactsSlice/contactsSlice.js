@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
+
 
 const initialState = {
   items: [],
@@ -8,22 +8,19 @@ const initialState = {
   error: null,
 };
 
-export const fetchContacts = createAsyncThunk('contacts/fetchAll', async () => {
-  try {
-    const response = await axios.get('https://connections-api.herokuapp.com/contacts');
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-});
-
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
+    resetContacts: () => initialState,
+
     addContact: (state, { payload }) => ({
       ...state,
       items: [...state.items, payload],
+    }),
+    updateContacts: (state, { payload }) => ({
+      ...state,
+      items: payload,
     }),
     deleteContact: (state, { payload }) => ({
       ...state,
@@ -35,21 +32,21 @@ const contactsSlice = createSlice({
     }),
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchContacts.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchContacts.fulfilled, (state, { payload }) => {
-        state.items = payload;
-        state.isLoading = false;
-      })
-      .addCase(fetchContacts.rejected, (state, { error }) => {
-        state.isLoading = false;
-        state.error = error.message;
-      });
+    // builder
+    //   .addCase(fetchContacts.pending, (state) => {
+    //     state.isLoading = true;
+    //     state.error = null;
+    //   })
+    //   .addCase(fetchContacts.fulfilled, (state, { payload }) => {
+    //     state.items = payload;
+    //     state.isLoading = false;
+    //   })
+    //   .addCase(fetchContacts.rejected, (state, { error }) => {
+    //     state.isLoading = false;
+    //     state.error = error.message;
+    //   });
   },
 });
 
-export const { addContact, deleteContact, changeFilter } = contactsSlice.actions;
+export const { addContact, resetContacts, deleteContact, changeFilter, updateContacts } = contactsSlice.actions;
 export default contactsSlice.reducer;

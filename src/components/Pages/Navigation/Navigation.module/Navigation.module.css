@@ -1,0 +1,62 @@
+/* navigationStyles.css */
+.nav {
+  margin-bottom: 50px;
+  background-color: rgba(20, 20, 20, 0.886);
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+}
+
+.ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.li {
+  font-size: 1.2rem;
+  position: relative;
+  display: flex; /* Додано для вирівнювання параграфу та кнопки на одному рівні */
+  align-items: center; /* Додано для вирівнювання параграфу та кнопки на одному рівні */
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+  transition: color 0.2s, background-color 0.2s 0.2s;
+  position: relative;
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+}
+
+.activeLink {
+  border-bottom: 2px solid #FF5733;
+}
+
+.linkHover {
+  color: #FF5733;
+  background-color: rgba(255, 87, 51, 0.2);
+}
+
+.userInfo {
+  color:azure ;
+  margin-right: 0.5rem; /* Додано відступ між параграфом та кнопкою */
+  border-bottom: 1px solid lightgreen; /* Тонка лінія підсвічування нікнейму */
+  padding-bottom: 2px; /* Додано невеликий відступ нижнього поля для лінії підсвічування */
+}
+
+.logoutButton {
+  padding: 0.2rem 0.5rem;
+  border: none;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  color: #ffffff;
+}

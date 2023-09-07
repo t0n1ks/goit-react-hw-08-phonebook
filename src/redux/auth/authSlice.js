@@ -1,14 +1,13 @@
 // authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { sendLoginRequest } from 'api/api';
+import { sendLoginRequest, sendLogoutRequest } from 'api/api';
 
 export const login = createAsyncThunk("auth/login", async ({ email, password }, { rejectWithValue }) => {
   // debugger
   try {
     const { token, user } = await sendLoginRequest({ email, password });
-    
-    // Встановлення isAuthenticated в true та збереження токену
+
     return {token : token, user : user };
   } catch (error) {
 
@@ -23,12 +22,20 @@ export const login = createAsyncThunk("auth/login", async ({ email, password }, 
   }
 });
 
-export const logout = createAsyncThunk('auth/logout', async () => {
+export const logout = createAsyncThunk('auth/logout', async ({token}, { dispatch, rejectWithValue }) => {
   try {
-    await axios.post('https://connections-api.herokuapp.com/users/logout');
-    return null;
+    debugger
+    if (!token) {
+      alert('Token is missing');
+      return;
+    }
+    sendLogoutRequest({token});
+
+    dispatch(resetAuth());
+    
   } catch (error) {
-    throw error;
+    // Виправлення помилки з використанням rejectWithValue
+    return rejectWithValue({ message: error.message });
   }
 });
 
@@ -57,10 +64,12 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    resetAuth: () => initialState
+  },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      debugger
+      // debugger
       state.user = action.payload.user;
       state.isAuthenticated = true;
       state.token = action.payload.token; // Збереження токену
@@ -96,4 +105,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { resetAuth } = authSlice.actions;
 export default authSlice.reducer;

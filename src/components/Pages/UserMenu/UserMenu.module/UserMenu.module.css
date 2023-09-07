@@ -1,5 +1,9 @@
 /* UserMenu.module.css */
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
@@ -7,28 +11,21 @@
   border-radius: 5px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Центрування тексту всередині контейнера */
 }
 
 .userInfo {
   font-size: 1.2rem;
   margin-bottom: 10px;
+  border-bottom: 1px solid #8BC34A;
+  padding-bottom: 5px; /* Додавання відстані між userInfo і logoutButton */
+  margin-right: auto; /* Відділення userInfo від logoutButton */
 }
 
-.logoutButton {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.logoutButton:hover {
-  background-color: #0056b3;
-}
 
 .userNotLoggedIn {
   font-size: 1.2rem;
   text-align: center;
+  border-bottom: 1px solid #EF5350;
+  padding-bottom: 5px; /* Додавання відстані між userNotLoggedIn і вмістом нижче */
 }

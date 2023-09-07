@@ -44,21 +44,49 @@ export const sendLoginRequest = async ( {email, password} ) => {
   }
 };
 
-// Змінити функцію createContact на відправку даних на сервер
-export const createContact = async (contact) => {
+export const sendLogoutRequest = async ( {token} ) => {
+  // debugger
   try {
-    const response = await axios.post(`${BASE_URL}/contacts`, contact);
-    return response.data;
+     await axios.post(`${BASE_URL}/users/logout`, null, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
   } catch (error) {
-    throw error.response.data;
+    console.error("There was an error during user logout process", error.response.data)
+    throw error;
   }
 };
 
-export const fetchContacts = async () => {
+// Змінити функцію createContact на відправку даних на сервер
+export const createContact = async (contact, token) => {
   try {
-    const response = await axios.get(`${BASE_URL}/contacts`);
+    const response = await axios.post(`${BASE_URL}/contacts`, contact, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
     return response.data;
   } catch (error) {
+    console.error('Error adding contact:', error);
+    throw error;
+  }
+};
+
+
+export const sendGetContactsRequest = async (token) => {
+  try {
+    debugger
+    const response = await axios.get(`${BASE_URL}/contacts`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error getting contacts:', error);
     throw error.response.data;
   }
 };
@@ -72,10 +100,16 @@ export const addContact = async (contact) => {
   }
 };
 
-export const deleteContact = async (contactId) => {
+export const deleteContact = async (id, token) => {
   try {
-    await axios.delete(`${BASE_URL}/contacts/${contactId}`);
+    await axios.delete(`https://connections-api.herokuapp.com/contacts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
-    throw error.response.data;
+    console.error('Error deleting contact:', error);
+    throw error;
   }
+
 };

@@ -30,7 +30,7 @@ function LoginPage() {
   };
 
   const handleSubmit = async e => {
-    debugger
+    // debugger
     e.preventDefault();
 
     try {   
