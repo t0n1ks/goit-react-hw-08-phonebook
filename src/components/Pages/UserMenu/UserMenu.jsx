@@ -3,6 +3,7 @@ import { useSelector} from 'react-redux';
 import ContactForm from '../../ContactForm/ContactForm';
 import ContactList from '../../ContactList/ContactList';
 import styles from './UserMenu.module/UserMenu.module.css';
+import Filter from 'components/Filter/Filter';
 
 
 
@@ -16,6 +17,7 @@ function UserMenu() {
       {user ? (
         <div>
           <ContactForm />
+          <Filter/>
           <ContactList />
         </div>
       ) : (

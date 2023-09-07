@@ -8,13 +8,13 @@ const ContactList = () => {
   const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
-  const userToken = useSelector(state => state.auth.token); // Отримайте токен користувача зі стейту
+  const userToken = useSelector(state => state.auth.token); 
 
   useEffect(() => {
     const getContacts = async () => {
-      // Отримайте список контактів з сервера за допомогою токену
+    
       const contacts = await sendGetContactsRequest(userToken);
-      // Оновіть список контактів в сторінці
+     
       dispatch(updateContacts(contacts));
     };
 
@@ -27,7 +27,7 @@ const ContactList = () => {
 
   const handleDeleteContact = async (id) => {
     try {
-      // Видалення контакту з використанням токену авторизованого користувача
+    
       await deleteContactApi(id, userToken);
       dispatch(deleteContact(id));
     } catch (error) {

@@ -1,4 +1,3 @@
-/* navigationStyles.css */
 .nav {
   margin-bottom: 50px;
   background-color: rgba(20, 20, 20, 0.886);
@@ -20,8 +19,8 @@
 .li {
   font-size: 1.2rem;
   position: relative;
-  display: flex; /* Додано для вирівнювання параграфу та кнопки на одному рівні */
-  align-items: center; /* Додано для вирівнювання параграфу та кнопки на одному рівні */
+  display: flex; 
+  align-items: center; 
 }
 
 .link {
@@ -44,9 +43,9 @@
 
 .userInfo {
   color:azure ;
-  margin-right: 0.5rem; /* Додано відступ між параграфом та кнопкою */
-  border-bottom: 1px solid lightgreen; /* Тонка лінія підсвічування нікнейму */
-  padding-bottom: 2px; /* Додано невеликий відступ нижнього поля для лінії підсвічування */
+  margin-right: 0.5rem;
+  border-bottom: 1px solid lightgreen; 
+  padding-bottom: 2px; 
 }
 
 .logoutButton {

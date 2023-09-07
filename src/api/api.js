@@ -2,10 +2,11 @@ import axios from 'axios';
 
 const BASE_URL = 'https://connections-api.herokuapp.com'; 
 
-// Функція для реєстрації користувача
-export const signup = async ({ email, password }) => {
+
+export const sendRegisterRequest = async ({name, email, password }) => {
   try {
     const response = await axios.post(`${BASE_URL}/users/signup`, {
+      name,
       email,
       password,
     });
@@ -15,7 +16,7 @@ export const signup = async ({ email, password }) => {
   }
 };
 
-// Функція для автентифікації користувача
+
 export const sendLoginRequest = async ( {email, password} ) => {
   // debugger
   try {
@@ -59,7 +60,7 @@ export const sendLogoutRequest = async ( {token} ) => {
   }
 };
 
-// Змінити функцію createContact на відправку даних на сервер
+
 export const createContact = async (contact, token) => {
   try {
     const response = await axios.post(`${BASE_URL}/contacts`, contact, {
@@ -102,7 +103,7 @@ export const addContact = async (contact) => {
 
 export const deleteContact = async (id, token) => {
   try {
-    await axios.delete(`https://connections-api.herokuapp.com/contacts/${id}`, {
+    await axios.delete(`${BASE_URL}/contacts/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import contactsReducer from '../contactsSlice/contactsSlice';
 import { validateContactMiddleware } from '../../redux/middleware/ValidationMiddleware';
-import authReducer from '../auth/authSlice'; // Додали імпорт authReducer
+import authReducer from '../auth/authSlice'; 
 
 const rootReducer = {
   contacts: contactsReducer,
-  auth: authReducer, // Додали authReducer
+  auth: authReducer,
 };
 
 const store = configureStore({

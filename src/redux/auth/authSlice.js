@@ -1,7 +1,5 @@
-// authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { sendLoginRequest, sendLogoutRequest } from 'api/api';
+import { sendLoginRequest, sendLogoutRequest, sendRegisterRequest } from 'api/api';
 
 export const login = createAsyncThunk("auth/login", async ({ email, password }, { rejectWithValue }) => {
   // debugger
@@ -34,7 +32,7 @@ export const logout = createAsyncThunk('auth/logout', async ({token}, { dispatch
     dispatch(resetAuth());
     
   } catch (error) {
-    // Виправлення помилки з використанням rejectWithValue
+   
     return rejectWithValue({ message: error.message });
   }
 });
@@ -42,11 +40,7 @@ export const logout = createAsyncThunk('auth/logout', async ({token}, { dispatch
 
 export const register = createAsyncThunk('auth/register', async ({ name, email, password }) => {
   try {
-    const response = await axios.post('https://connections-api.herokuapp.com/users/signup', {
-      name,
-      email,
-      password,
-    });
+    const response = await sendRegisterRequest({ name: name, email: email, password: password});
     const userData = response.data;
     return userData;
   } catch (error) {
@@ -57,7 +51,7 @@ export const register = createAsyncThunk('auth/register', async ({ name, email, 
 const initialState = {
   user: null,
   isAuthenticated: false,
-  token: null, // Додавання токену
+  token: null,
   error: null,
 };
 
@@ -72,7 +66,7 @@ const authSlice = createSlice({
       // debugger
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      state.token = action.payload.token; // Збереження токену
+      state.token = action.payload.token; 
       state.error = null;
     });
 
@@ -84,7 +78,7 @@ const authSlice = createSlice({
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      state.token = action.payload.token; // Збереження токену
+      state.token = action.payload.token; 
       state.error = null;
     });
 
@@ -99,7 +93,7 @@ const authSlice = createSlice({
     builder.addCase(logout.fulfilled, (state) => {
       state.user = null;
       state.isAuthenticated = false;
-      state.token = null; // Очищення токену
+      state.token = null; 
       state.error = null;
     });
   },

@@ -1,8 +1,7 @@
-// LoginPage.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { login } from '../../../redux/auth/authSlice';
-import { useNavigate } from 'react-router-dom'; // Додано імпорт
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -36,9 +35,7 @@ function LoginPage() {
     try {   
 
       dispatch(login( {email: formData.email, password: formData.password} ));
-    //   if (isAuthenticated && !error){
-    //   navigate("/user-menu");
-    // }
+
     } catch (error) {
       alert('Login failed:', error);
     }

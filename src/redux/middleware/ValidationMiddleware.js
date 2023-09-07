@@ -1,4 +1,4 @@
-import { addContact } from '../contactsSlice/contactsSlice'; // Імпортуємо дію для додавання контакту
+import { addContact } from '../contactsSlice/contactsSlice'; 
 
 export const validateContactMiddleware = (store) => (next) => (action) => {
   if (action.type === addContact.type) {

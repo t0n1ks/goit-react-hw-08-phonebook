@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice/contactsSlice';
 import s from './ContactForm.module/ContactForm.module.css';
-import { createContact } from '../../api/api'; // Додано імпорт
+import { createContact } from '../../api/api'; 
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const contacts = useSelector(state => state.contacts.items);
-  const userToken = useSelector(state => state.auth.token); // Отримайте токен користувача зі стейту
+  const userToken = useSelector(state => state.auth.token); 
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -41,7 +41,7 @@ const ContactForm = () => {
     }
 
     try {
-      // Відправка контакту на сервер і передача токену авторизованого користувача
+      
       const addedContact = await createContact({ name, number }, userToken);
       dispatch(addContact(addedContact));
       setName('');
