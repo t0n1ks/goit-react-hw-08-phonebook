@@ -4,15 +4,23 @@ const BASE_URL = 'https://connections-api.herokuapp.com';
 
 
 export const sendRegisterRequest = async ({name, email, password }) => {
+  // debugger
   try {
-    const response = await axios.post(`${BASE_URL}/users/signup`, {
-      name,
-      email,
-      password,
+    const dataToSend = JSON.stringify({
+      name: name,
+      email: email,
+      password: password,
+    });
+    const response = await axios.post(`${BASE_URL}/users/signup`, dataToSend,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    console.error("There was an error during user register process", error.response.data)
+    throw error;
   }
 };
 
@@ -79,7 +87,7 @@ export const createContact = async (contact, token) => {
 
 export const sendGetContactsRequest = async (token) => {
   try {
-    debugger
+    // debugger
     const response = await axios.get(`${BASE_URL}/contacts`, {
       headers: {
         Authorization: token,

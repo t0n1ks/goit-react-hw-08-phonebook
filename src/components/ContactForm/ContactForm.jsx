@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice/contactsSlice';
-import s from './ContactForm.module/ContactForm.module.css';
 import { createContact } from '../../api/api'; 
+import { toast } from 'react-toastify';
+import s from './ContactForm.module/ContactForm.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
@@ -21,22 +23,23 @@ const ContactForm = () => {
   };
 
   const handleSubmit = async event => {
+    debugger
     event.preventDefault();
 
     if (name === '' || number === '') {
-      alert('Please fill in all fields');
+      toast.warning('Please fill in all fields');
       return;
     }
 
     const isNameExists = contacts.some(contact => contact.name === name);
     if (isNameExists) {
-      alert(`${name} already in the contact list!`);
+      toast.warning(`${name} already in the contact list!`);
       return;
     }
 
     const isNumberExists = contacts.some(contact => contact.number === number);
     if (isNumberExists) {
-      alert(`${number} already in the contact list!`);
+      toast.warning(`${number} already in the contact list!`);
       return;
     }
 

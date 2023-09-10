@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import {sendRegisterRequest } from 'api/api';
 import 'react-toastify/dist/ReactToastify.css';
 
-import axios from 'axios';
+
 import styles from './RegistrationPage.module/RegistrationPage.module.css';
+import { register } from 'redux/auth/authSlice';
 
 function RegistrationPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const error = useSelector((state) => state.auth.error);
@@ -34,20 +37,12 @@ function RegistrationPage() {
     e.preventDefault();
 
     try {
-      const dataToSend = JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
-
-       await axios.post('https://connections-api.herokuapp.com/users/signup', dataToSend, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await sendRegisterRequest({name: formData.name, email: formData.email, password: formData.password}); 
+      dispatch(register({token: response.token, user: response.user}));
+    
 
      
-      navigate('/login');
+      navigate('/user-menu');
       setTimeout(() => {
         toast.success('User successfully registered');
       }, 500);
@@ -58,7 +53,7 @@ function RegistrationPage() {
         return;
       }
       else {
-        toast.error('Registration failed:', error);
+        toast.error('Registration failed', error);
     }
     }
   };

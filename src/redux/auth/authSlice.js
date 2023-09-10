@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { sendLoginRequest, sendLogoutRequest, sendRegisterRequest } from 'api/api';
+import { sendLoginRequest, sendLogoutRequest} from 'api/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const login = createAsyncThunk("auth/login", async ({ email, password }, { rejectWithValue }) => {
   // debugger
@@ -10,10 +12,10 @@ export const login = createAsyncThunk("auth/login", async ({ email, password }, 
   } catch (error) {
 
     if(error.response.status === 400 && error.response.data.name === "MongoError") {
-      alert ('User already exist')
+      toast.warning ('User already exist')
     }
     else {
-     alert ('Registration failed:', error);
+      toast.error ('Registration failed:', error);
   }
   // debugger
   return rejectWithValue({ message: error.message, status: error.response.status });
@@ -24,7 +26,7 @@ export const logout = createAsyncThunk('auth/logout', async ({token}, { dispatch
   try {
     debugger
     if (!token) {
-      alert('Token is missing');
+      toast.warning('Token is missing');
       return;
     }
     sendLogoutRequest({token});
@@ -38,13 +40,11 @@ export const logout = createAsyncThunk('auth/logout', async ({token}, { dispatch
 });
 
 
-export const register = createAsyncThunk('auth/register', async ({ name, email, password }) => {
+export const register = createAsyncThunk('auth/register', async ({ token, user }, {rejectWithValue}) => {
   try {
-    const response = await sendRegisterRequest({ name: name, email: email, password: password});
-    const userData = response.data;
-    return userData;
+    return {token : token, user : user };
   } catch (error) {
-    throw error;
+    return rejectWithValue({ message: error.message });
   }
 });
 

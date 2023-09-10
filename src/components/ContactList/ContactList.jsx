@@ -12,7 +12,7 @@ const ContactList = () => {
 
   useEffect(() => {
     const getContacts = async () => {
-    
+    // debugger
       const contacts = await sendGetContactsRequest(userToken);
      
       dispatch(updateContacts(contacts));

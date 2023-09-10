@@ -9,6 +9,7 @@ const LoginPage = React.lazy(() => import('../PagesLog/LoginPage/LoginPage'));
 const RegistrationPage = React.lazy(() => import('../PagesLog/RegistrationPage/RegistrationPage'));
 const UserMenu = React.lazy(() => import('../Pages/UserMenu/UserMenu'));
 
+
 function App() {
   return (
     <Router basename="/goit-react-hw-08-phonebook">
@@ -18,7 +19,7 @@ function App() {
         <Route index element={<LoginPage />} />
           <Route path="/login" element={<Container> <LoginPage /><ToastContainer /></Container>} />
           <Route path="/register" element={ <Container><RegistrationPage /><ToastContainer /></Container>}/>
-          <Route path="/user-menu" element={ <Container><UserMenu /></Container>}/>
+          <Route path="/user-menu" element={ <Container><UserMenu /><ToastContainer /></Container>}/>
           </Route>
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>
